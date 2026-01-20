@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QrBox — Pay to Activate</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --accent: #15beb0;
+            --accent-light: #56DFCF;
+            --bg-dark: #121418; /* Soft Dark Mode: Bukan hitam pekat #000 */
+            --bg-card-dark: #1c1f26; 
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --glass: rgba(255, 255, 255, 0.03);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background: #ffffff;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 1. SPACING & HIERARCHY --- */
+        section { padding: 8rem 0; } /* Spasi antar section lebih lega agar 'bernafas' */
+        .container { max-width: 1140px; }
+
+        /* Navigation */
+        header.fixed-top {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 0.8rem 0;
+        }
+
+        .nav-link {
+            color: var(--text-main) !important;
+            font-weight: 500;
+            margin: 0 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover { color: var(--accent) !important; }
+
+        /* Hero Section */
+        .hero {
+            background: radial-gradient(circle at top right, rgba(21, 190, 176, 0.1), transparent), 
+                        linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+            padding: 180px 0 120px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .badge-accent {
+            background: rgba(21, 190, 176, 0.1);
+            color: rgba(21, 190, 176, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 { letter-spacing: -0.02em; line-height: 1.2; }
+
+        /* --- 2. MODERN ASSETS & CARDS --- */
+        .glass-card {
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 24px; /* Sudut lebih membulat/curvy */
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+
+        /* Flow / Cara Kerja */
+        .flow-icon-wrapper {
+            width: 70px;
+            height: 70px;
+            background: var(--accent);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(21, 190, 176, 0.2);
+        }
+
+        .flow-number {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #facc15;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #000;
+            border: 3px solid #fff;
+        }
+
+        /* --- 3. SOFT DARK MODE --- */
+        .section-dark {
+            background: var(--bg-dark);
+            color: #ffffff;
+            border-radius: 60px 60px 0 0; /* Memberikan kesan modern pada transisi section */
+        }
+
+        .section-dark .muted { color: #94a3b8; }
+
+        .spec-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+        }
+
+        /* Buttons */
+        .btn-accent {
+            background: var(--accent);
+            color: #fff !important;
+            padding: 0.8rem 2rem;
+            border-radius: 14px;
+            font-weight: 600;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .btn-accent:hover {
+            background: #12a69a;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(21, 190, 176, 0.3);
+        }
+
+        /* Device Image Glow */
+        .device-preview {
+            position: relative;
+            z-index: 1;
+        }
+
+        .device-preview::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%; height: 80%;
+            background: var(--accent);
+            filter: blur(120px);
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            background: #25d366;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 30px;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            section { padding: 5rem 0; }
+            .hero { text-align: center; padding-top: 140px; }
+            .nav-link { margin: 0.5rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+<header id="mainHeader" class="fixed-top">
+    <nav class="container navbar navbar-expand-lg">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            <img src="logo.png" alt="Logo" style="width:38px; height:38px;">
+            <div>
+                <div style="font-weight:800; line-height: 1; color: var(--accent); font-size: 1.4rem;">QrBox</div>
+                <small class="text-muted" style="font-size:.65rem; text-transform: uppercase; letter-spacing: 1px;">Pay to Activate</small>
+            </div>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="#cara-kerja">Cara Kerja</a></li>
+                <li class="nav-item"><a class="nav-link" href="#spesifikasi">Spesifikasi</a></li>
+                <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#bagi-hasil">Bagi Hasil</a></li>
+            </ul>
+            <a class="btn btn-accent" href="#kontak">Hubungi</a>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="badge-accent">QR Box + Web Monitoring</span>
+                <h1 class="display-4 fw-800 mb-4">QrBox — Mesin Nyala Otomatis Setelah Pembayaran</h1>
+                <p class="text-muted fs-5 mb-5" style="max-width: 550px;">
+                    QrBox adalah solusi QRIS IoT Pay to Activate yang revolusioner. Kunci mesin Anda dengan pembayaran digital, dan nikmati sistem yang berjalan otomatis 24/7. <b>Potong biaya operasional</b> dan <b>maksimalkan profit</b>.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a class="btn btn-accent btn-lg" href="#kontak">Konsultasi Gratis</a>
+                    <a class="btn btn-outline-dark btn-lg border-2" style="border-radius: 14px;" href="#spesifikasi">Lihat Spesifikasi</a>
+                </div>
+                <p class="mt-4 small text-muted"><i class="bi bi-shield-check-fill text-success me-2"></i> Digunakan oleh puluhan usaha, ribuan transaksi sukses setiap bulan.</p>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="device-preview text-center">
+                    <img src="web_dev.png" alt="QrBox App" class="img-fluid" style="max-width: 550px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6">
+                <h2 class="fw-800 mb-4">Mengapa QrBox jadi pilihan terbaik?</h2>
+                <p class="text-muted fs-5">
+                    QrBox menghilangkan <b>investasi modal awal (CAPEX) yang besar</b> untuk alat, serta semua kerumitan teknis di lapangan. Cukup pasang device kami, terima QRIS, dan mesin Anda <b>aktif otomatis, 24/7</b>.
+                </p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="glass-card h-100">
+                    <div class="flow-icon-wrapper" style="background: #eff6ff;"><i class="bi bi-eye text-primary fs-3"></i></div>
+                    <h4 class="fw-bold">Visi</h4>
+                    <p class="text-muted mb-0">Membantu pelaku usaha mengelola transaksi secara <b>otomatis, efisien, dan minim campur tangan manual.</b></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="glass-card h-100">
+                    <div class="flow-icon-wrapper" style="background: #fef2f2;"><i class="bi bi-rocket-takeoff text-danger fs-3"></i></div>
+                    <h4 class="fw-bold">Misi</h4>
+                    <ul class="text-muted ps-3">
+                        <li>Menyediakan sewa device QRIS IoT siap pakai.</li>
+                        <li>Memberikan dashboard real-time untuk monitoring usaha.</li>
+                        <li>Membantu UMKM berkembang tanpa investasi alat mahal.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="cara-kerja" style="background: #f8fafc;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-800">Cara Kerja <span style="color: var(--accent);">QrBox</span></h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="text-center p-4">
+                    <div class="flow-icon-wrapper mx-auto">
+                        <i class="bi bi-qr-code text-white fs-3"></i>
+                        <div class="flow-number">1</div>
+                    </div>
+                    <h5 class="fw-bold">Device menampilkan QRIS</h5>
+                    <p class="text-muted small">QR muncul di mesin — siap scan pelanggan.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="text-center p-4">
+                    <div class="flow-icon-wrapper mx-auto" style="background: #facc15;">
+                        <i class="bi bi-credit-card text-dark fs-3"></i>
+                        <div class="flow-number" style="background: var(--accent); color: white;">2</div>
+                    </div>
+                    <h5 class="fw-bold">Pelanggan Bayar</h5>
+                    <p class="text-muted small">Pembayaran tercatat otomatis — tanpa kasir.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="text-center p-4">
+                    <div class="flow-icon-wrapper mx-auto" style="background: #22c55e;">
+                        <i class="bi bi-lightning-charge text-white fs-3"></i>
+                        <div class="flow-number">3</div>
+                    </div>
+                    <h5 class="fw-bold">Mesin Aktif</h5>
+                    <p class="text-muted small">Mesin aktif — bisnis jalan sendiri.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="spesifikasi" class="section-dark">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h2 class="fw-800 mb-4">Spesifikasi Device</h2>
+                <p class="muted mb-5 fs-5">Unit compact, relay berdaya rendah, komunikasi WiFi. Cocok dipasang di mesin apa pun.</p>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-3 text-white">Teknis & Daya</h5>
+                        <div class="spec-item"><small class="muted d-block">Display</small><strong>3.5 Inch, Resistive Touchscreen</strong></div>
+                        <div class="spec-item"><small class="muted d-block">Koneksi</small><strong>WiFi 2.4GHz</strong></div>
+                        <div class="spec-item"><small class="muted d-block">Relay Rating</small><strong>AC 220V / 10A</strong></div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-3 text-white">Dimensi Unit</h5>
+                        <div class="spec-item text-center">
+                            <div class="row">
+                                <div class="col-4 border-end border-secondary">
+                                    <small class="muted d-block">Lebar</small><strong>6,4 cm</strong>
+                                </div>
+                                <div class="col-4 border-end border-secondary">
+                                    <small class="muted d-block">Panjang</small><strong>11,8 cm</strong>
+                                </div>
+                                <div class="col-4">
+                                    <small class="muted d-block">Tinggi</small><strong>3 cm</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-5 p-4" style="background: rgba(21, 190, 176, 0.05); border-radius: 20px; border: 1px dashed rgba(21, 190, 176, 0.3);">
+                    <h5 class="fw-bold text-white mb-3">Fitur Utama Platform</h5>
+                    <ul class="muted mb-0">
+                        <li>QR unik per device & manajemen multi-device</li>
+                        <li>Pemicu relay otomatis setelah konfirmasi transaksi</li>
+                        <li>Dashboard untuk monitoring, log, dan payout</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center mt-5 mt-lg-0">
+                <img src="dark.png" alt="Device" class="img-fluid" style="max-height: 500px; border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="layanan">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-800">Cocok untuk siapa QrBox?</h2>
+            <p class="text-muted">QrBox dirancang untuk pemilik usaha yang ingin transaksi lebih mudah, otomatis, dan bebas ribet.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="glass-card h-100 d-flex flex-column">
+                    <h5 class="fw-bold text-primary"><i class="bi bi-water me-2"></i>Laundry</h5>
+                    <p class="text-muted small mt-3">Pemilik laundry dapat mengaktifkan mesin cuci / pengering per sesi secara otomatis. Ideal untuk layanan self-service.</p>
+                    <p class="text-muted small">Cocok juga untuk mengganti sistem koin lama menjadi QRIS digital — lebih praktis.</p>
+                    <div class="mt-auto pt-4">
+                        <a href="https://wa.me/628112332285" class="btn btn-accent w-100">Hubungi via WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card h-100 d-flex flex-column">
+                    <h5 class="fw-bold text-success"><i class="bi bi-door-open me-2"></i>Turnstile / Gate</h5>
+                    <p class="text-muted small mt-3">Atur akses masuk otomatis per pembayaran / tiket. Cocok untuk coworking, mini-events, area bermain, atau area berbayar lainnya.</p>
+                    <div class="mt-auto pt-4">
+                        <a href="https://wa.me/628112332285" class="btn btn-accent w-100">Hubungi via WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card h-100 d-flex flex-column" style="opacity: 0.7; border-style: dashed;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold text-muted"><i class="bi bi-cup-hot me-2"></i>Dispenser</h5>
+                        <span class="badge bg-warning text-dark">Coming Soon</span>
+                    </div>
+                    <p class="text-muted small mt-3">Integrasi dengan dispenser air, kopi, atau makanan ringan untuk penjualan otomatis per porsi/sesi. Akan segera hadir.</p>
+                    <div class="mt-auto pt-4 text-center">
+                        <small class="text-muted">Segera tersedia untuk pre-order.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="bagi-hasil" style="background: #f1f5f9; border-radius: 60px;">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-7">
+                <h2 class="fw-800 mb-4">Model Bisnis & Transparansi Biaya</h2>
+                <p class="text-muted fs-5 mb-4">Nikmati layanan <strong>Full Managed Service</strong> kami dengan <strong>Biaya Layanan All-in-One 10%</strong> dari omset transaksi sukses Anda.</p>
+                <div class="glass-card" style="border: none;">
+                    <h5 class="fw-bold mb-4">Skema Pengelolaan</h5>
+                    <ol class="text-muted d-grid gap-3">
+                        <li><strong>Deposit Perangkat</strong>: Biaya jaminan perangkat, dikembalikan di akhir kontrak.</li>
+                        <li><strong>Penerimaan Dana</strong>: Semua pembayaran masuk ke akun gateway terpusat dan dicatat otomatis.</li>
+                        <li><strong>Biaya Layanan 10% (All-in-One)</strong>: Mencakup operasional, teknis, server, dan <b>gateway fee</b> (0.7%).</li>
+                        <li><strong>Payout</strong>: Dana bersih dicairkan dengan biaya penarikan Rp 10.000 + biaya admin bank.</li>
+                        <li><strong>Jaminan Kualitas</strong>: Berlaku biaya layanan minimum <b>Rp 100.000/device/bulan</b>.</li>
+                    </ol>
+                    <div class="mt-4">
+                        <a href="https://wa.me/628112332285" class="btn btn-accent">Konsultasi Skema Bagi Hasil</a>
+                        <p class="mt-3"><small class="text-danger">*Syarat & Ketentuan berlaku</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="p-5" style="background: var(--bg-dark); border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+                    <h4 class="text-white fw-bold mb-4">Rincian Potongan 10%</h4>
+                    <ul class="list-unstyled d-grid gap-4">
+                        <li class="d-flex gap-3 align-items-start">
+                            <i class="bi bi-check-circle-fill text-accent fs-5"></i>
+                            <span class="text-white-50">Maintenance aplikasi & dashboard</span>
+                        </li>
+                        <li class="d-flex gap-3 align-items-start">
+                            <i class="bi bi-check-circle-fill text-accent fs-5"></i>
+                            <span class="text-white-50">Biaya server & hosting</span>
+                        </li>
+                        <li class="d-flex gap-3 align-items-start">
+                            <i class="bi bi-check-circle-fill text-accent fs-5"></i>
+                            <span class="text-white-50">Sewa device & maintenance perangkat</span>
+                        </li>
+                        <li class="d-flex gap-3 align-items-start">
+                            <i class="bi bi-check-circle-fill text-accent fs-5"></i>
+                            <span class="text-white-50">Biaya gateway 0.7% (sudah termasuk)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="kontak" class="section-dark pb-4" style="border-radius: 0;">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4">
+                <h3 class="fw-800 text-white mb-4">QrBox<span style="color:var(--accent);">.</span></h3>
+                <p class="muted">Part of <a href="#" class="text-white text-decoration-none fw-bold">PT Tazaka Elektrik Teknologi</a></p>
+                <p class="muted">Solusi modern penyediaan device QRIS untuk ekosistem pembayaran digital yang lebih cepat dan aman.</p>
+            </div>
+            <div class="col-lg-4">
+                <h5 class="fw-bold text-white mb-4">Kantor QrBox</h5>
+                <p class="muted">
+                    Komplek GBR III, Blok A2 No.1, RT. 008 / RW. 025, <br>
+                    Desa Cilame, Kec. Ngamprah, <br>
+                    Kab. Bandung Barat
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <h5 class="fw-bold text-white mb-4">Hubungi Kami</h5>
+                <p class="muted mb-1">admin@qrbox.id</p>
+                <p class="muted fs-4 fw-bold text-white">0811-2332-285</p>
+            </div>
+        </div>
+        <hr class="my-5 border-secondary">
+        <div class="d-flex justify-content-between flex-wrap gap-3">
+            <p class="muted small mb-0">© 2025 Tazaka. All rights reserved.</p>
+            <div class="d-flex gap-4">
+                <a href="#" class="muted small text-decoration-none">Privacy Policy</a>
+                <a href="#" class="muted small text-decoration-none">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/628112332285" target="_blank" class="whatsapp-float">
+    <i class="bi bi-whatsapp"></i>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

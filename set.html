@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rahma — Creative Developer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+/* ================= RESET ================= */
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;
+  background:#0b0f14;
+  color:#e5e7eb;
+  line-height:1.7;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+
+/* ================= LAYOUT ================= */
+.container{
+  max-width:1440px;
+  margin:auto;
+  padding:60px 40px;
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:80px;
+}
+@media(max-width:1024px){
+  .container{
+    grid-template-columns:1fr;
+    padding:40px 20px;
+  }
+}
+
+/* ================= PROFILE CARD ================= */
+.profile{
+  position:relative;
+  background:linear-gradient(180deg,#111827,#020617);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:32px;
+  padding:32px 28px 28px;
+  height:fit-content;
+  box-shadow:0 40px 120px rgba(0,0,0,.6);
+}
+
+/* STICKY DESKTOP ONLY */
+@media(min-width:1025px){
+  .profile{position:sticky;top:40px;}
+}
+@media(max-width:1024px){
+  .profile{position:relative;margin-bottom:80px;}
+}
+
+/* FOTO */
+.profile img{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  margin:0 auto;
+}
+.profile h2{
+  text-align:center;
+  margin-top:20px;
+  font-weight:900;
+}
+.profile p{
+  text-align:center;
+  font-size:14px;
+  color:#94a3b8;
+  margin:10px 0 24px;
+}
+
+/* ===== SOSMED VERTICAL TOP RIGHT ===== */
+.social-vertical{
+  position:absolute;
+  top:24px;
+  right:24px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.social-vertical a{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.3s;
+}
+.social-vertical a:hover{
+  background:#22c55e;
+  color:#020617;
+}
+
+/* DOWNLOAD */
+.download{
+  display:block;
+  margin-top:28px;
+  text-align:center;
+  padding:14px;
+  border-radius:999px;
+  background:#22c55e;
+  color:#020617;
+  font-weight:800;
+}
+
+/* ================= RIGHT STICKY MENU ================= */
+.side-menu{
+  position:fixed;
+  right:32px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  z-index:999;
+}
+.side-menu a{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#020617;
+  border:1px solid rgba(255,255,255,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  transition:.3s;
+}
+.side-menu a:hover{
+  background:#22c55e;
+  color:#020617;
+}
+
+/* HIDE MENU ON MOBILE */
+@media(max-width:1024px){
+  .side-menu{display:none;}
+}
+
+/* ================= SECTION ================= */
+section{margin-bottom:140px}
+h3{
+  font-size:38px;
+  font-weight:900;
+  margin-bottom:28px;
+}
+.sub{color:#9ca3af}
+
+/* ================= HERO ================= */
+.hero h1{
+  font-size:64px;
+  font-weight:900;
+  line-height:1.1;
+}
+.hero span{
+  background:#22c55e;
+  color:#020617;
+  padding:6px 18px;
+  border-radius:999px;
+}
+
+/* ================= AWARDS ================= */
+.awards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:24px;
+  margin-top:40px;
+}
+.award{
+  background:#020617;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:24px;
+  font-weight:600;
+}
+
+/* ================= TIMELINE ================= */
+.timeline{
+  border-left:2px solid #22c55e;
+  padding-left:40px;
+}
+.timeline-item{
+  margin-bottom:50px;
+  position:relative;
+}
+.timeline-item::before{
+  content:'';
+  position:absolute;
+  left:-50px;
+  top:4px;
+  width:16px;
+  height:16px;
+  background:#22c55e;
+  border-radius:50%;
+}
+
+/* ================= PORTFOLIO ================= */
+.portfolio{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+}
+.work{
+  background:#020617;
+  border-radius:24px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+}
+.work img{
+  height:220px;
+  object-fit:cover;
+}
+.work h4{padding:20px}
+
+/* ================= ACCORDION ================= */
+.accordion-item{
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;
+  margin-bottom:18px;
+}
+.accordion-header{
+  padding:20px;
+  cursor:pointer;
+  font-weight:700;
+}
+.accordion-content{
+  height:0;
+  overflow:hidden;
+  padding:0 20px;
+  color:#9ca3af;
+}
+
+/* ================= SKILLS ================= */
+.skill{margin-bottom:28px}
+.bar{
+  height:10px;
+  background:#020617;
+  border-radius:999px;
+  overflow:hidden;
+}
+.bar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:#22c55e;
+}
+
+/* ================= TESTI ================= */
+.testi{
+  background:#020617;
+  border-radius:28px;
+  padding:40px;
+  border:1px solid rgba(255,255,255,.08);
+  font-style:italic;
+}
+.counter{
+  display:flex;
+  gap:80px;
+  margin-top:40px;
+}
+.counter div{
+  font-size:40px;
+  font-weight:900;
+}
+
+/* ================= CONTACT ================= */
+.contact input,
+.contact textarea{
+  width:100%;
+  margin-bottom:18px;
+  padding:16px;
+  border-radius:14px;
+  border:none;
+  background:#020617;
+  color:#fff;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+  border-top:1px solid rgba(255,255,255,.1);
+  padding-top:60px;
+  color:#9ca3af;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== RIGHT MENU ===== -->
+<nav class="side-menu">
+  <a href="#about"><i class="fa fa-user"></i></a>
+  <a href="#work"><i class="fa fa-briefcase"></i></a>
+  <a href="#skills"><i class="fa fa-code"></i></a>
+  <a href="#contact"><i class="fa fa-envelope"></i></a>
+</nav>
+
+<div class="container">
+
+<!-- ===== LEFT CARD ===== -->
+<aside class="profile gsap-up">
+  <div class="social-vertical">
+    <a><i class="fab fa-github"></i></a>
+    <a><i class="fab fa-instagram"></i></a>
+    <a><i class="fab fa-linkedin"></i></a>
+  </div>
+
+  <img src="https://i.pravatar.cc/300">
+  <h2>Rahma</h2>
+  <p>Creative Developer & UI Engineer</p>
+  <a class="download">Download CV</a>
+</aside>
+
+<main>
+
+<section class="hero gsap-up">
+  <h1>Saya membangun<br><span>Situs Web</span><br>yang berkarakter</h1>
+  <p class="sub">Frontend • Creative Tech • GSAP Driven</p>
+</section>
+
+<section id="about" class="gsap-up">
+  <h3>About</h3>
+  <p>Saya fokus membangun web yang tidak hanya cantik, tapi terasa hidup.</p>
+  <div class="awards">
+    <div class="award">🏆 Best Creative</div>
+    <div class="award">🚀 Top Freelancer</div>
+    <div class="award">🥇 UI Excellence</div>
+  </div>
+</section>
+
+<section id="work">
+  <h3 class="gsap-up">Karya</h3>
+  <div class="portfolio">
+    <div class="work gsap-scale"><img src="https://picsum.photos/500/400?1"><h4>Landing Page</h4></div>
+    <div class="work gsap-scale"><img src="https://picsum.photos/500/400?2"><h4>Dashboard</h4></div>
+    <div class="work gsap-scale"><img src="https://picsum.photos/500/400?3"><h4>Portfolio</h4></div>
+  </div>
+</section>
+
+<section id="skills">
+  <h3 class="gsap-up">Keahlian</h3>
+  <div class="skill">HTML<div class="bar"><span data-width="95%"></span></div></div>
+  <div class="skill">CSS<div class="bar"><span data-width="90%"></span></div></div>
+  <div class="skill">JavaScript<div class="bar"><span data-width="85%"></span></div></div>
+</section>
+
+<section id="contact" class="contact gsap-up">
+  <h3>Kontak</h3>
+  <input placeholder="Nama">
+  <input placeholder="Email">
+  <textarea rows="4" placeholder="Pesan"></textarea>
+</section>
+
+<section class="footer gsap-up">
+  <h3>Filosofi</h3>
+  <p>Animasi bukan hiasan. Animasi adalah bahasa.</p>
+</section>
+
+</main>
+</div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger)
+
+/* REVEAL */
+gsap.utils.toArray('.gsap-up').forEach(el=>{
+  gsap.from(el,{
+    y:60,opacity:0,duration:1,
+    scrollTrigger:{trigger:el,start:'top 85%'}
+  })
+})
+
+gsap.utils.toArray('.gsap-scale').forEach(el=>{
+  gsap.from(el,{
+    scale:.9,opacity:0,duration:1,
+    scrollTrigger:{trigger:el,start:'top 85%'}
+  })
+})
+
+/* SKILLS */
+document.querySelectorAll('.bar span').forEach(bar=>{
+  gsap.to(bar,{
+    width:bar.dataset.width,
+    duration:1.8,
+    scrollTrigger:{trigger:bar,start:'top 90%'}
+  })
+})
+</script>
+
+</body>
+</html>

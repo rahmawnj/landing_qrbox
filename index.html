@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QrBox — Pay to Activate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="shortcut icon" href="logo.ico" type="image/x-icon">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<meta property="og:type" content="website">
+    <meta property="og:title" content="QrBox — Solusi Bayar Mudah, Aktivasi Cepat!">
+    <meta property="og:description" content="QrBox menawarkan perangkat QRIS 'Pay to Activate' terbaik dengan sistem bagi hasil 10% dan dukungan teknis 24/7. Cek sekarang!">
+    <meta property="og:image" content="https://www.qrbox.id/share-banner.jpg">
+    
+    <meta property="og:url" content="https://www.qrbox.id">
+
+    <meta property="og:site_name" content="QrBox">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root{
+            --accent-glow: 0 6px 18px rgba(33,195,125,0.18);
+            --muted:#6c757d;
+                        --accent: #15beb0;
+            --accent-light: #56DFCF;
+            --bg-dark: #121418; /* Soft Dark Mode: Bukan hitam pekat #000 */
+            --bg-card-dark: #1c1f26; 
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --glass: rgba(255, 255, 255, 0.03);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+        }
+       
+         body {
+            background: #ffffff;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        header.fixed-top{backdrop-filter: blur(6px); background: rgba(255,255,255,0.6);}
+@media (min-width: 992px) {
+    #navMenu .navbar-nav:first-child {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.nav-link {
+    color: #0f1724 !important;
+    font-weight: 400;
+    position: relative; 
+    padding-bottom: 8px !important; 
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; 
+    height: 3px; 
+    background-color: #15beb0; 
+    border-radius: 999px;
+    transition: width 0.3s ease-out;
+}
+
+.nav-link:hover {
+    color: #15beb0 !important;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.badge-accent {
+    /* Mengubah background menjadi transparan */
+    background: rgba(20, 215, 199, 0.1); /* 0.1 adalah tingkat transparansi 10% agar tetap ada sedikit warna */
+    
+    /* Mengubah warna teks agar lebih kontras (opsional, sesuaikan dengan background) */
+    color: rgb(20, 215, 199); 
+    
+    /* Memperbaiki border: tambahkan 'solid' agar garis muncul */
+    border: 1px solid #18e3d2; 
+    
+    padding: 0.6rem 1.2rem;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    
+    /* Tambahan agar lebih modern */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+        
+        .device-card{border-radius:18px; background: linear-gradient(180deg, rgba(255,255,255,0.9), #fff); box-shadow: 0 8px 28px rgba(15,20,36,0.08); padding:1.3rem}
+
+        /* Glow accent */
+        .glow{color:var(--accent); text-shadow: 0 6px 18px rgba(33,195,125,0.18)}
+
+        /* Sections */
+        section{padding:5.5rem 0}
+        .section-dark{background: var(--bg-dark); color:#e6eef0}
+        .section-dark .muted{color: #98a6b0}
+
+        /* KHUSUS SECTION LAYANAN */
+        #layanan {
+            /* Pindahkan inline styles ke sini */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.90), rgba(0, 0, 0, 0.75)), url('wallpaper.jpg');
+            background-size: cover; 
+            background-position: center; 
+            /* Tambahan properti untuk membuat gambar BG tidak ikut scrolling */
+            background-attachment: fixed;
+        }
+
+        .flow-step{min-height:180px; display:flex; align-items:center; gap:1rem; z-index: 10; position: relative; flex-direction: column; text-align: center; padding: 10px; flex-basis: 30%;}
+        .flow-step > div:last-child { margin-top: 10px; }
+
+        .flow-icon-wrapper {
+            position: relative;
+            width: 70px; /* Ukuran total wrapper */
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg,#4fdacf); /* Latar belakang gradient */
+            border-radius: 20px; /* Border radius sedikit membulat */
+            box-shadow: 0 10px 20px rgba(21, 190, 176, 0.2);
+        }
+/* NEW: Efek Hover untuk Flow Icon */
+.flow-step:hover .flow-icon-wrapper {
+    /* Meningkatkan bayangan (glow) saat di-hover */
+    box-shadow: 0 0 15px 5px var(--accent), 0 6px 18px rgba(132, 255, 202, 0.4); 
+    transform: translateY(-3px); /* Gerakan naik sedikit */
+    transition: all 0.3s ease-in-out; /* Tambahkan transisi */
+}
+
+/* NEW: Warna Ikon Berubah saat di-hover */
+.flow-step:hover .flow-icon-wrapper i {
+    color: #fff098 !important; /* Contoh ganti warna ikon menjadi kuning/cerah */
+    transition: color 0.3s ease-in-out;
+}
+
+/* NEW: Pastikan state default memiliki transisi */
+.flow-icon-wrapper {
+    /* Tambahkan transisi default agar animasinya halus */
+    transition: all 0.3s ease-in-out; 
+}
+.flow-icon-wrapper i {
+    /* Tambahkan transisi default untuk ikon */
+    transition: color 0.3s ease-in-out;
+}
+        .flow-icon {
+            width: 80%; /* Ikon sedikit lebih kecil dari wrapper */
+            height: 80%;
+            object-fit: contain; /* Memastikan ikon tidak terdistorsi */
+            /* Jika ikon Anda berwarna gelap, gunakan filter untuk membuatnya putih/terang */
+            /* filter: invert(1); */ 
+        }
+
+        .flow-number {
+            position: absolute;
+            bottom: -5px; 
+            right: -5px;
+            width: 24px; /* Sedikit lebih besar */
+            height: 24px;
+            border-radius: 50%;
+            background: #fdcb34; 
+            color: #052118;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0px solid white; /* Border lebih tebal agar lebih menonjol */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* NEW: Container untuk animasi garis dot (HORIZONTAL) */
+        .flow-container {
+            position: relative;
+            padding: 0; 
+            display: flex;
+            align-items: center;
+            flex-grow: 1; 
+            min-width: 80px; 
+        }
+
+        /* NEW: Style untuk garis dot beranimasi (HORIZONTAL) */
+        .flow-line-dotted {
+            position: absolute;
+            top: 85%; /* Ditingkatkan menjadi 85% dari tinggi flow-container */
+            /* transform: translateY(-50%); Dihapus */
+            left: 0;
+            right: 0;
+            height: 2px; 
+            width: 100%; 
+            background: none;
+            overflow: hidden; 
+        }
+        
+        /* Style untuk dot/dash yang bergerak (HORIZONTAL) */
+        .flow-line-dotted::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-image: linear-gradient(to right, var(--accent) 5px, transparent 5px, transparent 15px);
+            background-size: 15px 100%; 
+            width: 200%; 
+            animation: flow-line-scroll 3s linear infinite; 
+            background-position-x: 0;
+        }
+        
+        @keyframes flow-line-scroll {
+            from {
+                background-position-x: 0; 
+            }
+            to {
+                background-position-x: 15px; 
+            }
+        }
+
+
+        /* Device spec */
+        .specs .spec{border-radius:10px; padding:1rem; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
+
+        .btn-accent{
+            background: linear-gradient(90deg, var(--accent), #5edbd1);
+            color: #1a1a1a; 
+            font-weight: 600;
+            font-size: 1rem;
+            padding: .70rem 1.8rem;
+            border: none;
+            box-shadow: 0 8px 20px rgba(33,195,125,0.3); 
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-accent:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(33,195,125,0.5);
+        }
+        /* NEW: Custom Outline Button for Dark Backgrounds */
+        .btn-outline-light {
+            border-color: var(--accent);
+            color: var(--accent);
+            background-color: transparent;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            padding: .70rem 1.8rem;
+
+        }
+
+        .btn-outline-light:hover {
+            color: #04201a; 
+            background-color: var(--accent);
+            border-color: var(--accent);
+            box-shadow: var(--accent-glow);
+        }
+
+        .device-glow-wrap {
+            position: relative;
+            display: inline-block;
+            transition: transform 0.3s ease-in-out; 
+        }
+
+        .device-glow-wrap::before {
+            content: "";
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 60%;
+            height: 80%;
+            border-radius: 50px;
+            filter: blur(40px);
+            background: rgba(33, 195, 168, 0.55); 
+            z-index: 0;
+        }
+       .spec-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+        }
+        
+@media (max-width: 991px) {
+    /* Mengembalikan centering untuk gambar/alur di mobile */
+    #spesifikasi .col-lg-4, #cara-kerja .col-lg-6:last-child {
+        display: flex;
+        justify-content: center; 
+        margin-top: 3rem; 
+    }
+    
+    /* Mengubah flow step ke vertikal di mobile agar tidak terlalu lebar */
+    #cara-kerja .flow-step {
+        flex-direction: row;
+        text-align: left;
+        max-width: 100%;
+        min-height: 80px;
+        flex-basis: auto; /* Override flex-basis desktop */
+    }
+
+    /* Menyembunyikan garis dot di mobile agar alur kembali vertikal */
+    #cara-kerja .flow-container {
+        display: none !important;
+    }
+    
+    /* Menggunakan d-grid untuk stack vertikal di mobile */
+    #cara-kerja .flow-wrapper {
+        display: grid !important;
+        gap: 20px;
+    }
+    /* Memperbaiki posisi ikon di mobile flow-step */
+    #cara-kerja .flow-icon-wrapper {
+        /* width: 40px;
+        height: 40px; */
+        min-width: 40px;
+    }
+}
+
+@media (min-width: 992px) {
+    #spesifikasi .col-lg-4 {
+        justify-content: flex-end !important;
+    }
+    #cara-kerja .flow-wrapper {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+    }
+            .device-glow-wrap:hover {
+            transform: translateY(-5px); 
+        }
+        @media (max-width: 768px){
+            .hero{min-height:70vh; padding-top:2rem}
+            .device-image{display:none}
+        }
+
+        footer{padding:2.5rem 0; font-size:.95rem}
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05); /* Sedikit latar putih transparan */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px); /* Efek blur kaca */
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Sedikit bayangan */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 40px rgba(86, 223, 207, 0.15); /* Tambah glow accent saat hover */
+        }
+        .glass-card .fw-bold { color: #4cc2b4; } /* Warna judul card */
+        .glass-card .text-muted { color: #98a6b0 !important; } /* Warna teks muted */
+
+        .ribbon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+    }
+    .ribbon::before {
+        content: "Coming Soon";
+        position: absolute;
+        top: 20px;
+        right: -25px;
+        padding: 5px 30px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        background-color: #ffc107; /* Yellow */
+        color: #343a40; /* Dark text */
+        font-weight: 700;
+        font-size: 0.75rem;
+        transform: rotate(45deg);
+        z-index: 10;
+        text-align: center;
+        width: 150px; /* Panjang ribbon */
+    }
+    
+    /* Memastikan glass-card adalah posisi relatif untuk ribbon */
+    .glass-card-relative {
+        position: relative; /* Kelas baru untuk menahan ribbon */
+        overflow: hidden; /* Penting untuk ribbon */
+    }
+    /* --- NEW: Floating WhatsApp CTA Styles --- */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366; /* Warna WhatsApp Hijau */
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 999; /* Pastikan di atas elemen lain */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.05);
+}
+
+.whatsapp-float .bi-whatsapp {
+    font-size: 28px;
+}
+
+/* Badge muncul saat hover */
+.whatsapp-float-badge {
+    position: absolute;
+    right: 75px; /* Jarak dari tombol */
+    opacity: 0;
+    white-space: nowrap; /* Mencegah teks patah baris */
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #ffe348; /* Background badge */
+    color: black;
+    font-size: 0.9rem;
+    font-weight: 600;
+    pointer-events: none; /* Agar tidak menghalangi klik pada tombol itu sendiri */
+    transform: translateX(10px); /* Mulai sedikit di luar */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.whatsapp-float:hover .whatsapp-float-badge {
+    opacity: 1;
+    transform: translateX(0); /* Pindah ke posisi akhir */
+}
+     
+
+/* Footer Enhancements */
+footer .muted {
+    color: #98a6b0 !important;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-link {
+    color: #e6eef0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-link:hover {
+    color: var(--accent);
+    transform: translateX(5px);
+}
+
+/* Responsivitas tambahan */
+@media (max-width: 767px) {
+    footer .text-lg-end {
+        text-align: left !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header id="mainHeader" class="fixed-top">
+    <nav class="container navbar navbar-expand-lg">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#" style="align-items: flex-start;">
+            <div style="width:44px; height:44px; border-radius:10px;  align-items:center; justify-content:center;">
+                <img src="logo.png" alt="QR Icon" style="width:40px; height:40px;">
+            </div>
+            <div style="padding-top: 3px;">
+                <div style="font-weight:700; line-height: 0.4; color: #15beb0;">QrBox</div>
+                <small class="text-muted" style="font-size:.7rem; line-height: 0.4;">Pay to Activate</small>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav mx-auto align-items-center"> <li class="nav-item"><a class="nav-link" href="#cara-kerja">Cara Kerja</a></li>
+                <li class="nav-item"><a class="nav-link" href="#spesifikasi">Spesifikasi</a></li>
+                <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#bagi-hasil">Bagi Hasil</a></li>
+            </ul>
+
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item ms-3"><a class="btn btn-accent" href="#kontak">Hubungi</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<section id="heroSection" class="hero position-relative mb-5" style="
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+            padding: 200px 0 120px 0;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow: hidden;
+">
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="badge-accent">QR Box + Web Monitoring</span>
+                <h1 class="mt-4 display-5 fw-600 text-white">
+                    <span class="accent">QrBox</span> — Mesin Nyala Otomatis Setelah Pembayaran
+                </h1>
+                <p class="text-white fw-800 mt-3" style="line-height:1.6;">
+                  QrBox adalah solusi QRIS IoT Pay to Activate yang revolusioner. Kunci mesin Anda dengan pembayaran digital, dan nikmati sistem yang berjalan otomatis 24/7. <b>Potong biaya operasional</b> dan <b>maksimalkan profit</b>.
+                </p>
+
+                <div class="d-flex gap-3 mt-4 flex-wrap">
+                    <a class="btn btn-accent btn-lg" href="#kontak" style="color:#04201a; font-weight:600; box-shadow:0 6px 18px rgba(33,195,125,0.18);">
+                        Konsultasi Gratis
+                    </a>
+                    <a class="btn btn-outline-light btn-lg" href="#spesifikasi">
+                        Lihat Spesifikasi
+                    </a>
+                </div>
+
+                <p class="text-white mt-3 small">
+                    Digunakan oleh puluhan usaha, ribuan transaksi sukses setiap bulan.
+                </p>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="device-preview text-center">
+                    <img src="web_dev.png" alt="QrBox App" class="img-fluid" style="max-width: 550px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="about" class="py-20" style="background:#fff;">
+    <div class="container">
+        <div class="row align-items-start">
+            <!-- About Description -->
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <h2 class="fw-bold" style="color:#0f1724;">Mengapa <span style="">QrBox</span> jadi pilihan terbaik?</h2>
+               <p style="color:#4b5563; line-height:1.6;">
+        QrBox menghilangkan <b>investasi modal awal (CAPEX) yang besar</b> untuk alat, 
+        serta semua kerumitan teknis di lapangan. Cukup pasang device kami, terima QRIS, 
+        dan mesin Anda <b>aktif otomatis, 24/7</b>.
+    </p>
+            </div>
+
+            <!-- Visi & Misi Cards -->
+            <div class="col-lg-7">
+                <div class="row g-4">
+                    <!-- Visi -->
+                    <div class="col-md-6">
+                        <div class="p-4 glass-card h-100" style="min-height:180px;">
+                            <h5 class="fw-bold mb-3">Visi</h5>
+                            <p class="text-dark mb-0">
+                                Membantu pelaku usaha mengelola transaksi secara 
+                                <b>otomatis, efisien, dan minim campur tangan manual.</b>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Misi -->
+                    <div class="col-md-6">
+                        <div class="p-4 glass-card h-100" style="min-height:180px;">
+                            <h5 class="fw-bold mb-3">Misi</h5>
+                            <ul class="text-dark mb-0">
+                                <li>Menyediakan sewa device QRIS IoT siap pakai.</li>
+                                <li>Memberikan dashboard real-time untuk monitoring usaha.</li>
+                                <li>Membantu UMKM berkembang tanpa investasi alat mahal.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+ <section id="cara-kerja">
+       <div class="container">
+         <div class="row mb-4">
+            <div class="col-lg-12 text-center">
+                <h2 class="fw-bold">Cara Kerja <b class="glow">QrBox</b></h2>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-12"> 
+                <div class="flow-wrapper d-flex justify-content-between align-items-start"> 
+                    
+                    <div class="flow-step" data-step="1">
+                        <div class="flow-icon-wrapper">
+                        <i class="bi bi-qr-code text-dark fs-3" ></i>
+                            <div class="flow-number">1</div> 
+                        </div>
+                        <div>
+                            <div class="fw-bold">Device menampilkan QRIS</div>
+                            <div class="text-muted small">QR muncul di mesin — siap scan pelanggan.</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-container">
+                        <div class="flow-line-dotted"></div>
+                    </div>
+
+                    <div class="flow-step" data-step="2">
+                        <div class="flow-icon-wrapper">
+                        <i class="bi bi-credit-card text-dark fs-3" ></i>
+                            <div class="flow-number">2</div> 
+                        </div>
+                        <div>
+                            <div class="fw-bold">Pelanggan Bayar</div>
+                            <div class="text-muted small">Pembayaran tercatat otomatis — tanpa kasir.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-container">
+                        <div class="flow-line-dotted"></div>
+                    </div>
+
+                    <div class="flow-step" data-step="3">
+                        <div class="flow-icon-wrapper">
+                        <i class="bi bi-lightning-charge text-dark fs-3" ></i>
+                            <div class="flow-number">3</div> 
+                        </div>
+                        <div>
+                            <div class="fw-bold">Mesin Aktif</div>
+                            <div class="text-muted small">Mesin aktif — bisnis jalan sendiri.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       </div>
+    </section>
+
+<section id="spesifikasi" class="section-dark">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h2 class="fw-800 mb-4">Spesifikasi Device</h2>
+                <p class="muted mb-5 fs-6">Unit compact, relay berdaya rendah, komunikasi WiFi. Cocok dipasang di mesin apa pun.</p>
+
+                <div class="row g-4 mt-3">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold mb-3">Teknis & Daya</h5>
+                        <ul class="list-unstyled muted fs-800 small d-grid gap-2">
+                            <li>Display: <strong>3.5 Inch, Resistive Touchscreen</strong></li>
+                            <li>Koneksi: <strong>WiFi 2.4GHz</strong></li>
+                            <li>Power Supply: <strong>12V DC, 5A</strong></li>
+                            <li>Relay rating: <strong>AC 220V / 10A</strong></li>
+                            <li>Enclosure: <strong>IP53 (indoor)</strong></li>
+                            <li>Konektor: <strong>Output ke Device Relay (Optional)</strong></li>
+                        </ul>
+                    </div>
+                    
+                 <div class="col-md-6">
+                        <h5 class="fw-bold mb-3 text-white">Dimensi Unit</h5>
+                        <div class="spec-item text-center">
+                            <div class="row">
+                                <div class="col-4 border-end border-secondary">
+                                    <small class="muted d-block">Lebar</small><strong>6,4 cm</strong>
+                                </div>
+                                <div class="col-4 border-end border-secondary">
+                                    <small class="muted d-block">Panjang</small><strong>11,8 cm</strong>
+                                </div>
+                                <div class="col-4">
+                                    <small class="muted d-block">Tinggi</small><strong>3 cm</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="mt-5 p-4" style="background: rgba(21, 190, 176, 0.05); border-radius: 20px; border: 1px dashed rgba(21, 190, 176, 0.3);">
+                    <h5 class="fw-bold text-white mb-3">Fitur Utama Platform</h5>
+                    <ul class="muted mb-0">
+                        <li>QR unik per device & manajemen multi-device</li>
+                        <li>Pemicu relay otomatis setelah konfirmasi transaksi</li>
+                        <li>Dashboard untuk monitoring, log, dan payout</li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 d-flex justify-content-center"> 
+                <!-- <div class="device-glow-wrap"> -->
+                    <img src="dark.png" alt="device photo" class="img-fluid" style="max-height: 500px; border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="layanan" class="py-6">
+    <div class="container">
+         <div class="text-center mb-5">
+            <h2 class="fw-800 text-white">Cocok untuk siapa QrBox?</h2>
+            <p class="text-white">QrBox dirancang untuk pemilik usaha yang ingin transaksi lebih mudah, otomatis, dan bebas ribet.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center mt-5">
+           <div class="col-md-4">
+        <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative">
+          <div class="mb-5 text-center">
+    <h5 class="fw-bold">Laundry</h5>
+    <p class="mt-5 fw-600 small text-white">
+        Pemilik laundry dapat mengaktifkan mesin cuci / pengering per sesi secara otomatis. Ideal untuk layanan self-service.
+    </p>
+    <p class="mt-2 fw-600 small text-white">
+        Cocok juga untuk mengganti sistem koin lama menjadi QRIS digital — lebih praktis.
+    </p>
+</div>
+
+            <div class="mt-auto d-grid gap-2">
+                <a class="btn btn-accent btn-sm" href="https://wa.me/628112332285?text=Halo%2C%20saya%20tertarik%20dengan%20solusi%20untuk%20Laundry." target="_blank">Hubungi via WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative">
+            <div class="mb-5 text-center">
+                <h5 class="fw-bold">Turnstile / Gate</h5>
+                <p class="mt-5 fw-600 small text-white">Atur akses masuk otomatis per pembayaran / tiket. Cocok untuk coworking, mini-events, area bermain, atau area berbayar lainnya.</p>
+            </div>
+            <div class="mt-auto d-grid gap-2">
+                <a class="btn btn-accent btn-sm" href="https://wa.me/628112332285?text=Halo%2C%20saya%20tertarik%20dengan%20solusi%20untuk%20Turnstile%20/%20Gate." target="_blank">Hubungi via WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+            <div class="col-md-4">
+                <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative" style="opacity: 0.65;">
+                    <div class="ribbon"></div> 
+                    
+                    <div class="mb-5 text-center">
+                        <h5 class="fw-bold">Dispenser</h5>
+                        <p class="mt-5 fw-600 small text-white">Integrasi dengan dispenser air, kopi, atau makanan ringan untuk penjualan otomatis per porsi/sesi. Akan segera hadir.</p>
+                    </div>
+                    <div class="mt-auto d-grid gap-2">
+                        <p class="text-muted small mb-0 pt-2 text-center">Segera tersedia untuk pre-order.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <section id="bagi-hasil" class="">
+    <div class="container">
+        <div class="row">
+       <div class="col-lg-8">
+    <h2 class="fw-800 mb-4">Model Bisnis & Transparansi Biaya</h2>
+    
+    <p class="text-muted fs-5 mb-4" style="text-align: justify;">
+        Nikmati layanan <strong>Full Managed Service</strong> kami dengan 
+        <strong>Biaya Layanan All-in-One 10%</strong> dari omset transaksi sukses Anda. 
+        Anda fokus ke bisnis, kami urus teknis.
+    </p>
+
+   <h5 class="fw-bold mb-4">Skema Pengelolaan</h5>
+                    <ol class="text-muted d-grid gap-3">
+                        <li><strong>Deposit Perangkat</strong>: Biaya jaminan perangkat, dikembalikan di akhir kontrak.</li>
+                        <li><strong>Penerimaan Dana</strong>: Semua pembayaran masuk ke akun gateway terpusat dan dicatat otomatis.</li>
+                        <li><strong>Biaya Layanan 10% (All-in-One)</strong>: Mencakup operasional, teknis, server, dan <b>gateway fee</b> (0.7%).</li>
+                        <li><strong>Payout</strong>: Dana bersih dicairkan dengan biaya penarikan Rp 10.000 + biaya admin bank.</li>
+                        <li><strong>Jaminan Kualitas</strong>: Berlaku biaya layanan minimum <b>Rp 100.000/device/bulan</b>.</li>
+                    </ol>
+    <div class="my-4">
+        <a href="https://wa.me/628112332285" target="_blank" 
+        class="btn btn-accent" 
+        style="color:#04201a; font-weight:600; box-shadow:0 6px 18px rgba(33,195,125,0.18);">
+        Konsultasi Skema Bagi Hasil
+        </a>
+        <div class="my-2">
+                        <p class="mt-3"><small class="text-danger">*Syarat & Ketentuan berlaku</small></p>
+        </div>
+    </div>
+</div>
+
+
+    <div class="col-lg-4">
+                <div class="p-5" style="background: var(--bg-dark); border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+        
+        <h5 class="text-white mb-4" style="font-weight: 700;">Rincian Potongan 10%</h5>
+        
+        <ul class="list-unstyled mb-0" style="padding-left: 0;">
+            
+            <li class="d-flex align-items-baseline mb-3">
+                <i class="bi bi-check check-icon" style="color: #46e8c8; margin-right: 12px; font-size: 1.5rem; line-height: 1;"></i>
+                <p class="text-white mb-0" style="flex-grow: 1; font-size: 1rem;">Maintenance aplikasi & dashboard</p>
+            </li>
+            
+            <li class="d-flex align-items-baseline mb-3">
+                <i class="bi bi-check check-icon" style="color: #46e8c8; margin-right: 12px; font-size: 1.5rem; line-height: 1;"></i>
+                <p class="text-white mb-0" style="flex-grow: 1; font-size: 1rem;">Biaya server & hosting</p>
+            </li>
+            
+            <li class="d-flex align-items-baseline mb-3">
+                <i class="bi bi-check check-icon" style="color: #46e8c8; margin-right: 12px; font-size: 1.5rem; line-height: 1;"></i>
+                <p class="text-white mb-0" style="flex-grow: 1; font-size: 1rem;">Sewa device & maintenance perangkat</p>
+            </li>
+            
+            <li class="d-flex align-items-baseline mb-3">
+                <i class="bi bi-check check-icon" style="color: #46e8c8; margin-right: 12px; font-size: 1.5rem; line-height: 1;"></i>
+                <p class="text-white mb-0" style="flex-grow: 1; font-size: 1rem;">Biaya gateway 0.7% (termasuk di potongan 10%)</p> 
+            </li>
+            
+            <li class="d-flex align-items-baseline">
+                <i class="bi bi-check check-icon" style="color: #46e8c8; margin-right: 12px; font-size: 1.5rem; line-height: 1;"></i>
+                <p class="text-white mb-0" style="flex-grow: 1; font-size: 1rem;">Dukungan teknis & pemeliharaan perangkat</p>
+            </li>
+        </ul>
+    </div>
+    </div>
+        </div>
+    </div>
+</section> -->
+
+<footer id="kontak" class="pt-5 pb-4" style="background:#0b0d10; color:#e6eef0; border-top: 1px solid rgba(255,255,255,0.05);">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-4 col-md-6">
+                <h4 class="fw-bold text-white mb-3">QrBox<span style="color:var(--accent);">.</span></h4>
+                <p class="mb-4" style="font-size: 0.85rem; color: #98a6b0;">
+        Part of <a href="https://tazaka.co.id/" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:600;">PT Tazaka Elektrik Teknologi</a>
+    </p>
+                <p class="muted mb-4" style="max-width: 300px;">
+                    Solusi modern penyediaan device QRIS untuk ekosistem pembayaran digital yang lebih cepat dan aman.
+                </p>
+                
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <h5 class="fw-bold text-white mb-3">Hubungi Kami</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <a href="mailto:admin@qrbox.id" class="footer-link d-flex align-items-center">
+                            <i class="bi bi-envelope-fill me-3"></i> admin@qrbox.id
+                        </a>
+                    </li>
+                    <li class="mb-3">
+                        <a href="https://wa.me/628112332285" class="footer-link d-flex align-items-center">
+                            <i class="bi bi-whatsapp me-3"></i> 0811-2332-285
+                        </a>
+                    </li>
+                    <li class="mb-3">
+               <a href="https://www.google.com/maps/search/?api=1&query=Komplek+GBR+III+Blok+A2+No.1+Cilame+Ngamprah" 
+           target="_blank" 
+           class="footer-link text-decoration-none" 
+           style="line-height: 1.6;">
+                        <i class="bi bi-geo-alt-fill me-3 mt-1"></i>
+                            <strong>Kantor QrBox:</strong><br>
+                            Komplek GBR III, Blok A2 No.1, RT. 008 / RW. 025, <br>
+                            Desa Cilame, Kec. Ngamprah, <br>
+                            Kab. Bandung Barat
+                            <br>
+                            <span class="badge mt-2" style="background: rgba(86, 223, 207, 0.1); color: var(--accent); border: 1px solid var(--accent);">
+                                <i class="bi bi-map me-1"></i> Buka di Maps
+                            </span>
+                        </a>
+                    </li>
+                  
+                </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-12 text-lg-end">
+                <h5 class="fw-bold text-white mb-3">Siap Memulai?</h5>
+                <p class="muted mb-4">Konsultasikan kebutuhan device QRIS Anda sekarang secara gratis.</p>
+                <a href="https://wa.me/628112332285" target="_blank" 
+                   class="btn btn-accent px-4 py-2">
+                   <i class="bi bi-whatsapp me-2"></i> Konsultasi Gratis
+                </a>
+            </div>
+        </div>
+
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 3rem 0 1.5rem 0;">
+
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+<small class="muted">© 2025 <strong>Tazaka</strong>. All rights reserved. QrBox is a registered trademark.</small>            </div>
+            <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                <small>
+                    <a href="#" class="footer-link me-3">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>
+<a href="https://wa.me/628112332285?text=Halo%20QrBox%2C%20saya%20tertarik%20dengan%20layanan%20sewa%20device%20QRIS." 
+   target="_blank" 
+   class="whatsapp-float">
+    <i class="bi bi-whatsapp"></i>
+    <span class="whatsapp-float-badge">Hubungi via WhatsApp!</span>
+</a> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+ <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('mainHeader');
+            const hero = document.getElementById('heroSection');
+            
+            if (header && hero) {
+                // 1. Dapatkan tinggi header
+                const headerHeight = header.offsetHeight;
+
+                // 2. Terapkan padding-top ke hero section
+                const extraPadding = 16; 
+                hero.style.paddingTop = `${headerHeight + extraPadding}px`;
+
+                // Opsional: Pastikan penyesuaian dilakukan lagi jika ukuran window berubah
+                window.addEventListener('resize', () => {
+                    const newHeaderHeight = header.offsetHeight;
+                    hero.style.paddingTop = `${newHeaderHeight + extraPadding}px`;
+                });
+            }
+
+            
+        }); // <-- Kurung kurawal ini menutup function() dan (); menutup addEventListener
+    </script>
+</body>
+</html>
