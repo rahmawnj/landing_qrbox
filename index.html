@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>QrBox — Pay to Activate</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
 <link rel="shortcut icon" href="logo.ico" type="image/x-icon">
 <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
@@ -41,13 +41,33 @@
          body {
             background: #ffffff;
             color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Audiowide', 'Orbitron', 'Share Tech Mono', 'Rajdhani', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
         /* Header */
-        header.fixed-top{backdrop-filter: blur(6px); background: rgba(255,255,255,0.6);}
+        header.fixed-top{
+            background: transparent;
+            backdrop-filter: none;
+            box-shadow: none;
+            transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+        }
+        header.fixed-top .navbar { padding-top: 1.5rem; padding-bottom: 1.5rem; transition: padding 0.3s ease; }
+        header.fixed-top.scrolled .navbar { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        header.fixed-top.scrolled{background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); box-shadow: 0 2px 8px rgba(0,0,0,0.08);}
+        header.fixed-top.scrolled .nav-link{ color: #0f1724 !important; }
+        /* Mode transparan: di atas hero, teks brand & nav jadi putih */
+        header.fixed-top .nav-link { color: #ffffff !important; }
+        header.fixed-top .nav-link:hover { color: #15beb0 !important; }
+        header.fixed-top .navbar-brand-text { color: #ffffff !important; }
+        header.fixed-top .navbar-brand-sub { color: rgba(255,255,255,0.75) !important; }
+
+        /* Mode scrolled: balik ke gelap */
+        header.fixed-top.scrolled .nav-link { color: #0f1724 !important; }
+        header.fixed-top.scrolled .nav-link:hover { color: #15beb0 !important; }
+        header.fixed-top.scrolled .navbar-brand-text { color: #15beb0 !important; }
+        header.fixed-top.scrolled .navbar-brand-sub { color: #6c757d !important; }
 @media (min-width: 992px) {
     #navMenu .navbar-nav:first-child {
         position: absolute;
@@ -236,11 +256,25 @@
         }
 
 
+        /* Tombol dengan panah animasi (Konsultasi) */
+        .btn-arrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-arrow .arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-weight: 700;
+        }
+        .btn-arrow:hover .arrow {
+            transform: translateX(6px);
+        }
         /* Device spec */
         .specs .spec{border-radius:10px; padding:1rem; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
 
         .btn-accent{
-            background: linear-gradient(90deg, var(--accent), #5edbd1);
+            background: linear-gradient(90deg, var(--accent), #b1fff9);
             color: #1a1a1a; 
             font-weight: 600;
             font-size: 1rem;
@@ -355,9 +389,9 @@
         footer{padding:2.5rem 0; font-size:.95rem}
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.05); /* Sedikit latar putih transparan */
+            background: rgba(255, 255, 255, 0.1); /* Sedikit latar putih transparan */
             border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px); /* Efek blur kaca */
+            backdrop-filter: blur(2px); /* Efek blur kaca */
             -webkit-backdrop-filter: blur(8px);
             border-radius: 12px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Sedikit bayangan */
@@ -368,7 +402,7 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 40px rgba(86, 223, 207, 0.15); /* Tambah glow accent saat hover */
         }
-        .glass-card .fw-bold { color: #4cc2b4; } /* Warna judul card */
+        .glass-card .fw-bold { color: #69fceb; } /* Warna judul card */
         .glass-card .text-muted { color: #98a6b0 !important; } /* Warna teks muted */
 
         .ribbon {
@@ -488,8 +522,8 @@ footer .muted {
                 <img src="logo.png" alt="QR Icon" style="width:40px; height:40px;">
             </div>
             <div style="padding-top: 3px;">
-                <div style="font-weight:700; line-height: 0.4; color: #15beb0;">QrBox</div>
-                <small class="text-muted" style="font-size:.7rem; line-height: 0.4;">Pay to Activate</small>
+                <div class="navbar-brand-text" style="font-weight:700; line-height: 0.4;">QrBox</div>
+                <small class="navbar-brand-sub" style="font-size:.7rem; line-height: 0.4;">Pay to Activate</small>
             </div>
         </a>
 
@@ -517,7 +551,7 @@ footer .muted {
     background-size: cover;
     background-position: center;
     color: white;
-            padding: 200px 0 120px 0;
+            padding: 180px 0 120px 0;
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -536,8 +570,8 @@ footer .muted {
                 </p>
 
                 <div class="d-flex gap-3 mt-4 flex-wrap">
-                    <a class="btn btn-accent btn-lg" href="#kontak" style="color:#04201a; font-weight:600; box-shadow:0 6px 18px rgba(33,195,125,0.18);">
-                        Konsultasi Gratis
+                    <a class="btn btn-accent btn-lg btn-arrow" href="#kontak" style="color:#04201a; font-weight:600; box-shadow:0 6px 18px rgba(33,195,125,0.18);">
+                        Konsultasi Gratis <span class="arrow">&rarr;</span>
                     </a>
                     <a class="btn btn-outline-light btn-lg" href="#spesifikasi">
                         Lihat Spesifikasi
@@ -577,7 +611,7 @@ footer .muted {
                     <!-- Visi -->
                     <div class="col-md-6">
                         <div class="p-4 glass-card h-100" style="min-height:180px;">
-                            <h5 class="fw-bold mb-3">Visi</h5>
+                            <h5 class="fw-bold text-dark mb-3">Visi</h5>
                             <p class="text-dark mb-0">
                                 Membantu pelaku usaha mengelola transaksi secara 
                                 <b>otomatis, efisien, dan minim campur tangan manual.</b>
@@ -588,7 +622,7 @@ footer .muted {
                     <!-- Misi -->
                     <div class="col-md-6">
                         <div class="p-4 glass-card h-100" style="min-height:180px;">
-                            <h5 class="fw-bold mb-3">Misi</h5>
+                            <h5 class="fw-bold text-dark mb-3">Misi</h5>
                             <ul class="text-dark mb-0">
                                 <li>Menyediakan sewa device QRIS IoT siap pakai.</li>
                                 <li>Memberikan dashboard real-time untuk monitoring usaha.</li>
@@ -660,8 +694,90 @@ footer .muted {
         </div>
        </div>
     </section>
+<section id="layanan" class="py-6">
+    <div class="container">
+         <div class="text-center mb-5">
+            <h2 class="fw-800 text-white">Cocok untuk siapa QrBox?</h2>
+            <p class="text-white">QrBox dirancang untuk pemilik usaha yang ingin transaksi lebih mudah, otomatis, dan bebas ribet.</p>
+        </div>
 
-<section id="spesifikasi" class="section-dark">
+        <div class="row g-4 justify-content-center mt-5">
+           <!-- Laundry -->
+           <div class="col-md-4">
+                <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative">
+                  <div class="mb-5 text-center">
+                    <h5 class="fw-bold">Laundry</h5>
+                    <p class="mt-5 fw-600 small text-white">
+                        Pemilik laundry dapat mengaktifkan mesin cuci / pengering per sesi secara otomatis. Ideal untuk layanan self-service.
+                    </p>
+                    <p class="mt-2 fw-600 small text-white">
+                        Cocok juga untuk mengganti sistem koin lama menjadi QRIS digital — lebih praktis.
+                    </p>
+                </div>
+                <div class="mt-auto d-grid gap-2">
+                    <a class="btn btn-accent btn-sm" href="https://wa.me/628112332285?text=Halo%2C%20saya%20tertarik%20dengan%20solusi%20untuk%20Laundry." target="_blank">Hubungi via WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Turnstile / Gate -->
+        <div class="col-md-4">
+            <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative">
+                <div class="mb-5 text-center">
+                    <h5 class="fw-bold">Turnstile / Gate</h5>
+                    <p class="mt-5 fw-600 small text-white">Atur akses masuk otomatis per pembayaran / tiket. Cocok untuk coworking, mini-events, area bermain, atau area berbayar lainnya.</p>
+                </div>
+                <div class="mt-auto d-grid gap-2">
+                    <a class="btn btn-accent btn-sm" href="https://wa.me/628112332285?text=Halo%2C%20saya%20tertarik%20dengan%20solusi%20untuk%20Turnstile%20/%20Gate." target="_blank">Hubungi via WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Steam / Cuci Kendaraan (Baru) -->
+        <div class="col-md-4">
+            <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative">
+                <div class="mb-5 text-center">
+                    <h5 class="fw-bold">Steam / Cuci Kendaraan</h5>
+                    <p class="mt-5 fw-600 small text-white">Aktifkan mesin steam motor atau mobil otomatis per sesi. Ideal untuk bisnis car wash mandiri yang hemat operasional dan bebas antre kasir.</p>
+                </div>
+                <div class="mt-auto d-grid gap-2">
+                    <a class="btn btn-accent btn-sm" href="https://wa.me/628112332285?text=Halo%2C%20saya%20tertarik%20dengan%20solusi%20untuk%20Steam%20Cuci%20Kendaraan." target="_blank">Hubungi via WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- EV Charging Station (Baru) -->
+        <div class="col-md-4">
+            <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative">
+                <div class="mb-5 text-center">
+                    <h5 class="fw-bold">EV Charging Station</h5>
+                    <p class="mt-5 fw-600 small text-white">Solusi otomatis untuk pengisian daya kendaraan listrik (motor/mobil). Aliran listrik aktif otomatis sesuai durasi atau nominal pembayaran digital.</p>
+                </div>
+                <div class="mt-auto d-grid gap-2">
+                    <a class="btn btn-accent btn-sm" href="https://wa.me/628112332285?text=Halo%2C%20saya%20tertarik%20dengan%20solusi%20untuk%20EV%20Charging%20Station." target="_blank">Hubungi via WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dispenser (Segera Hadir) -->
+        <div class="col-md-4">
+            <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative" style="opacity: 0.65;">
+                <div class="ribbon"></div> 
+                <div class="mb-5 text-center">
+                    <h5 class="fw-bold">Dispenser</h5>
+                    <p class="mt-5 fw-600 small text-white">Integrasi dengan dispenser air, kopi, atau makanan ringan untuk penjualan otomatis per porsi/sesi. Akan segera hadir.</p>
+                </div>
+                <div class="mt-auto d-grid gap-2">
+                    <p class="text-muted small mb-0 pt-2 text-center">Segera tersedia untuk pre-order.</p>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="spesifikasi" class="">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8">
@@ -698,7 +814,7 @@ footer .muted {
                         </div>
                     </div>
                      <div class="mt-5 p-4" style="background: rgba(21, 190, 176, 0.05); border-radius: 20px; border: 1px dashed rgba(21, 190, 176, 0.3);">
-                    <h5 class="fw-bold text-white mb-3">Fitur Utama Platform</h5>
+                    <h5 class="fw-bold mb-3">Fitur Utama Platform</h5>
                     <ul class="muted mb-0">
                         <li>QR unik per device & manajemen multi-device</li>
                         <li>Pemicu relay otomatis setelah konfirmasi transaksi</li>
@@ -710,67 +826,14 @@ footer .muted {
 
             <div class="col-lg-4 d-flex justify-content-center"> 
                 <!-- <div class="device-glow-wrap"> -->
-                    <img src="dark.png" alt="device photo" class="img-fluid" style="max-height: 500px; border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+                    <img src="dark.png" alt="device photo" class="" style="max-height: 500px; ">
                 <!-- </div> -->
             </div>
         </div>
     </div>
 </section>
 
-<section id="layanan" class="py-6">
-    <div class="container">
-         <div class="text-center mb-5">
-            <h2 class="fw-800 text-white">Cocok untuk siapa QrBox?</h2>
-            <p class="text-white">QrBox dirancang untuk pemilik usaha yang ingin transaksi lebih mudah, otomatis, dan bebas ribet.</p>
-        </div>
 
-        <div class="row g-4 justify-content-center mt-5">
-           <div class="col-md-4">
-        <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative">
-          <div class="mb-5 text-center">
-    <h5 class="fw-bold">Laundry</h5>
-    <p class="mt-5 fw-600 small text-white">
-        Pemilik laundry dapat mengaktifkan mesin cuci / pengering per sesi secara otomatis. Ideal untuk layanan self-service.
-    </p>
-    <p class="mt-2 fw-600 small text-white">
-        Cocok juga untuk mengganti sistem koin lama menjadi QRIS digital — lebih praktis.
-    </p>
-</div>
-
-            <div class="mt-auto d-grid gap-2">
-                <a class="btn btn-accent btn-sm" href="https://wa.me/628112332285?text=Halo%2C%20saya%20tertarik%20dengan%20solusi%20untuk%20Laundry." target="_blank">Hubungi via WhatsApp</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative">
-            <div class="mb-5 text-center">
-                <h5 class="fw-bold">Turnstile / Gate</h5>
-                <p class="mt-5 fw-600 small text-white">Atur akses masuk otomatis per pembayaran / tiket. Cocok untuk coworking, mini-events, area bermain, atau area berbayar lainnya.</p>
-            </div>
-            <div class="mt-auto d-grid gap-2">
-                <a class="btn btn-accent btn-sm" href="https://wa.me/628112332285?text=Halo%2C%20saya%20tertarik%20dengan%20solusi%20untuk%20Turnstile%20/%20Gate." target="_blank">Hubungi via WhatsApp</a>
-            </div>
-        </div>
-    </div>
-
-            <div class="col-md-4">
-                <div class="p-4 glass-card h-100 d-flex flex-column glass-card-relative" style="opacity: 0.65;">
-                    <div class="ribbon"></div> 
-                    
-                    <div class="mb-5 text-center">
-                        <h5 class="fw-bold">Dispenser</h5>
-                        <p class="mt-5 fw-600 small text-white">Integrasi dengan dispenser air, kopi, atau makanan ringan untuk penjualan otomatis per porsi/sesi. Akan segera hadir.</p>
-                    </div>
-                    <div class="mt-auto d-grid gap-2">
-                        <p class="text-muted small mb-0 pt-2 text-center">Segera tersedia untuk pre-order.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- <section id="bagi-hasil" class="">
     <div class="container">
@@ -794,9 +857,9 @@ footer .muted {
                     </ol>
     <div class="my-4">
         <a href="https://wa.me/628112332285" target="_blank" 
-        class="btn btn-accent" 
+        class="btn btn-accent btn-arrow" 
         style="color:#04201a; font-weight:600; box-shadow:0 6px 18px rgba(33,195,125,0.18);">
-        Konsultasi Skema Bagi Hasil
+        Konsultasi Skema Bagi Hasil <span class="arrow">&rarr;</span>
         </a>
         <div class="my-2">
                         <p class="mt-3"><small class="text-danger">*Syarat & Ketentuan berlaku</small></p>
@@ -922,7 +985,7 @@ footer .muted {
 </a> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
  <script>
-        
+         
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.getElementById('mainHeader');
             const hero = document.getElementById('heroSection');
@@ -932,7 +995,7 @@ footer .muted {
                 const headerHeight = header.offsetHeight;
 
                 // 2. Terapkan padding-top ke hero section
-                const extraPadding = 16; 
+                const extraPadding = 32; 
                 hero.style.paddingTop = `${headerHeight + extraPadding}px`;
 
                 // Opsional: Pastikan penyesuaian dilakukan lagi jika ukuran window berubah
@@ -942,8 +1005,29 @@ footer .muted {
                 });
             }
 
-            
-        }); // <-- Kurung kurawal ini menutup function() dan (); menutup addEventListener
+            // Toggle header background on scroll
+            const scrollThreshold = 50;
+            function updateHeaderOnScroll() {
+                if (window.scrollY > scrollThreshold) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+            updateHeaderOnScroll();
+            window.addEventListener('scroll', updateHeaderOnScroll);
+        });
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
